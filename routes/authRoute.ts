@@ -1,6 +1,7 @@
 import express from "express";
 import passport from 'passport';
 import { forwardAuthenticated } from "../middleware/checkAuth";
+import session from "express-session";
 
 const router = express.Router();
 
@@ -10,7 +11,7 @@ router.get("/login", forwardAuthenticated, (req, res) => {
 })
 
 router.post(
-  "/login",
+  "/login", 
   passport.authenticate("local", {
     successRedirect: "/dashboard",
     failureRedirect: "/auth/login",
@@ -25,5 +26,15 @@ router.get("/logout", (req, res) => {
   });
   res.redirect("/auth/login");
 });
+
+//router.get('/github', passport.authenticate('github', {scope:['user:email']}));
+router.get('/github', passport.authenticate('github', { prompt: 'consent' }));
+
+router.get('/github/callback', 
+    passport.authenticate('github', 
+    { failureRedirect: '/login', 
+      failureFlash: true,
+      successRedirect: '/dashboard' })
+    );
 
 export default router;

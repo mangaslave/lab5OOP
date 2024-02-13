@@ -1,10 +1,12 @@
-const database = [
+import { userInfo } from "os";
+
+const database: Express.User[] = [
   {
     id: 1,
     name: "Jimmy Smith",
     email: "jimmy123@gmail.com",
     password: "jimmy123!",
-    role: "admin"
+    role: true,
   },
   {
     id: 2,
@@ -20,7 +22,7 @@ const database = [
   },
 ];
 
-const userModel = {
+const userModel:any = {
 
   /* FIX ME (types) 😭 */
   findOne: (email: string) => {
@@ -40,6 +42,27 @@ const userModel = {
     //throw new Error(`Couldn't find user with id: ${id}`);
     return null;
   },
-};
+
+  // Add these methods to userModel.ts or adjust according to your model structure
+
+  findOrCreate: (profile: any) => {
+    const githubId = profile.id;
+  
+    let user = database.find(user => user.id === githubId);
+  
+    if (!user) {
+      user = {
+        name: profile.username,
+        email: '',
+        password: '',
+        id: githubId,
+      };
+      database.push(user); 
+      return user;
+    }
+    return user;
+
+  },
+}
 
 export { database, userModel };

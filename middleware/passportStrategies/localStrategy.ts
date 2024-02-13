@@ -10,6 +10,9 @@ declare global {
         email: string;
         password: string;
         id: number;
+        // make it booleand, so i would just check if it'strue
+        role?: boolean;
+        githubId?: string;
     }
  }
 }

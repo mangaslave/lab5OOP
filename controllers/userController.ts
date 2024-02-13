@@ -1,3 +1,4 @@
+import { Request, Response } from "express";
 import {userModel} from "../models/userModel";
 
 const getUserByEmailIdAndPassword = (email: string, password: string) => {
@@ -21,7 +22,16 @@ function isUserValid(user: any, password: string) {
   return user.password === password;
 }
 
+// function isAdmin(id: any) {
+//   let user = getUserById(id)
+//   let role = user.role;
+//   if (role === "admin") {
+//     return user;
+//   }
+// }
+
 export {
   getUserByEmailIdAndPassword,
   getUserById,
+  // isAdmin,
 };
